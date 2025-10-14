@@ -1,5 +1,4 @@
 import { LoginForm } from "./login-form"
-import Logo from "@/assets/dailycue.png"
 import LogoSemBackground from '@/assets/dailycue_no_background.png'
 
 export const Auth = () => {
