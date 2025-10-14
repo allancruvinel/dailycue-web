@@ -1,14 +1,16 @@
 import { ModeToggle } from './components/mode-toggle'
-import { Button } from './components/ui/button'
 import './index.css'
 import { ThemeProvider } from "@/components/theme-provider"
+import { Auth } from './pages/auth/auth'
 function App() {
   return (
     <ThemeProvider>
-      <div className="flex justify-center h-screen w-screen items-center">
-        <p>Inicial</p>
+      {/* <Construction /> */}
+      <div className="absolute top-4 right-4">
         <ModeToggle />
-        <Button className="" >Click me</Button>
+      </div>
+      <div className="flex justify-center h-screen w-screen items-center">
+        <Auth />
       </div>
     </ThemeProvider>
   )
