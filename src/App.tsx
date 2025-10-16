@@ -1,7 +1,8 @@
 import { ModeToggle } from './components/mode-toggle'
 import './index.css'
 import { ThemeProvider } from "@/components/theme-provider"
-import { Auth } from './pages/auth/auth'
+import {RouterProvider} from 'react-router'
+import { routes } from './routes'
 function App() {
   return (
     <ThemeProvider>
@@ -10,7 +11,7 @@ function App() {
         <ModeToggle />
       </div>
       <div className="flex justify-center h-screen w-screen items-center">
-        <Auth />
+        <RouterProvider router={routes} />
       </div>
     </ThemeProvider>
   )
