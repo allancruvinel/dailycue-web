@@ -5,30 +5,32 @@ import { Separator } from "@/components/ui/separator"
 import { GoogleLogin } from "@react-oauth/google"
 import { Link } from "react-router"
 
-export const LoginForm = () => {
+export const RegisterForm = () => {
 
   return (
-    <Card className="w-sm max-w-sm h-82 p-6">
+    <Card className="w-sm max-w-sm h-107 p-6">
       <CardHeader>
-        <CardTitle className="text-secondary text-bold">Login</CardTitle>
-        <CardDescription className="text-primary">Não tem uma conta? <Link to="/register" className="text-indigo-400 underline">Registre-se</Link>.</CardDescription>
+        <CardTitle className="text-secondary text-bold">Registro</CardTitle>
+        <CardDescription className="text-primary">Já tem uma conta? <Link to="/login" className="text-indigo-400 underline">Faça login</Link>.</CardDescription>
       </CardHeader>
       <CardContent>
         <form>
+          <Input type="text" placeholder="Nome" className="mb-4" />
           <Input type="email" placeholder="Email" className="mb-4" />
           <Input type="password" placeholder="Senha" className="mb-4" />
+          <Input type="password" placeholder="Confirme a Senha" className="mb-4" />  
           <Button type="submit" className="w-full bg-primary text-white py-2 px-4 rounded hover:bg-secondary transition-colors">
-            Entrar
+            Criar Conta
           </Button>
 
           <Separator className="my-4" orientation="horizontal"/>
           <div className="flex justify-center">
-            <GoogleLogin theme="filled_black" type="standard" shape="pill"
+            <GoogleLogin theme="filled_black" type="standard" shape="pill" text="continue_with" 
               onSuccess={credentialResponse => {
                 console.log("logou com sucesso no google", credentialResponse);
               }}
               onError={() => {
-                console.log('Login Failed');
+                console.log('Register Failed');
               }}
             />
           </div>

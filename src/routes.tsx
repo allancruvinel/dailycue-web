@@ -1,14 +1,16 @@
 import { createBrowserRouter } from "react-router"
-import { Auth } from './pages/auth/auth'
+import { AuthLayout } from './pages/_layouts/auth'
 import { Construction } from "./pages/construction/construction"
 import { ErrorPage } from "./pages/error"
-import { AppLayout } from "./pages/_layouts/app"
+import { LoginForm } from "./pages/auth/login-form"
+import { RegisterForm } from "./pages/auth/register-form"
 
 export const routes = createBrowserRouter([
-    {path: '/', element: <AppLayout />, errorElement: <ErrorPage />, children: 
+    {path: '/', element: <AuthLayout />, errorElement: <ErrorPage />, children: 
         [
             {path: '/', element: <Construction />},
-            {path: '/login', element: <Auth />}
+            {path: '/login', element: <LoginForm />},
+            {path: '/register', element: <RegisterForm />}
         ]}
     
 ])
