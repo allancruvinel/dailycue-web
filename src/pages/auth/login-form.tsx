@@ -6,7 +6,9 @@ import { GoogleLogin } from "@react-oauth/google"
 import { Link } from "react-router"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from 'react-hook-form'
+import { useMutation} from 'react-query'
 import { z } from "zod"
+import { loginRequest } from "@/api/auth"
 
 export const LoginForm = () => {
 
@@ -14,12 +16,12 @@ export const LoginForm = () => {
   const loginForm = z.object({
     email: z.email('Email inválido'),
     password: z.string()
-    .min(8, "A senha deve ter no mínimo 8 caracteres")
-    .max(32, "A senha deve ter no máximo 32 caracteres")
-    .regex(/[A-Z]/, "A senha deve conter pelo menos uma letra maiúscula")
-    .regex(/[a-z]/, "A senha deve conter pelo menos uma letra minúscula")
-    .regex(/[0-9]/, "A senha deve conter pelo menos um número")
-    .regex(/[^A-Za-z0-9]/, "A senha deve conter pelo menos um caractere especial"),
+    // .min(8, "A senha deve ter no mínimo 8 caracteres")
+    // .max(32, "A senha deve ter no máximo 32 caracteres")
+    // .regex(/[A-Z]/, "A senha deve conter pelo menos uma letra maiúscula")
+    // .regex(/[a-z]/, "A senha deve conter pelo menos uma letra minúscula")
+    // .regex(/[0-9]/, "A senha deve conter pelo menos um número")
+    // .regex(/[^A-Za-z0-9]/, "A senha deve conter pelo menos um caractere especial"),
   });
 
   type LoginFormType = z.infer<typeof loginForm>;
@@ -35,9 +37,18 @@ export const LoginForm = () => {
     }
   );
 
-  const onSubmit = (data:LoginFormType) => {
-    console.log(data);
+  const { mutateAsync: loginRequestfn } = useMutation({
+    mutationFn: loginRequest,
+    onError: (error: Error) => {
+      console.error('Erro ao fazer login:', error);
+      alert("Erro ao fazer login: " + error.name + " - " + error.message);
+    }
+  });
+
+  const onSubmit = async (data:LoginFormType) => {
+    const volta = await loginRequestfn({email: data.email, password: data.password});
     alert("Formulário enviado com sucesso!");
+    console.log('volta',volta);
 
     
     //como seria caso não usasse o zodResolver
