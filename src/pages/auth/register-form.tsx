@@ -3,12 +3,17 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { GoogleLogin } from "@react-oauth/google"
-import { Link } from "react-router"
+import { Link, useNavigate } from "react-router"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from 'react-hook-form'
 import { z } from "zod"
+import { useMutation } from "react-query"
+import { registerGoogleRequest, registerRequest } from "@/api/auth"
+import { toast } from "sonner"
+import { AxiosError } from "axios"
 
 export const RegisterForm = () => {
+  const navigate = useNavigate();
 
   const registerForm = z.object({
     name: z.string().min(2, "O nome deve ter no mínimo 2 caracteres").max(50, "O nome deve ter no máximo 50 caracteres"),  
@@ -46,9 +51,43 @@ export const RegisterForm = () => {
     }
   );
 
-  const onSubmit = (data:RegisterFormType) => {
-    console.log(data);
-    alert("Formulário enviado com sucesso!");
+  const { mutateAsync: registerRequestfn,isLoading: isRegisteringForm } = useMutation({
+    mutationFn: registerRequest,
+    onSuccess: () => {
+      navigate('/login', {replace: true});
+    }
+  });
+  const { mutateAsync: registerGoogleRequestfn } = useMutation({
+    mutationFn: registerGoogleRequest,
+    onSuccess: () => {
+      navigate('/login', {replace: true});
+    }
+  });
+
+  const onSubmit = async (data:RegisterFormType) => {
+    try {
+      await registerRequestfn(data);
+      toast.success("Registro realizado com sucesso!");
+    } catch (err: unknown) {
+      if (err instanceof AxiosError) {
+        toast.error("Erro ao criar registro: " + (err.response?.data?.message || err.message));
+        return;
+      }
+      toast.error("Erro ao criar registro: " + (err as Error).message);
+    }
+  }
+
+  const onGoogleRegister = async (token: string) => {
+    try {
+      await registerGoogleRequestfn(token);
+      toast.success("Registro com Google realizado com sucesso!");
+    } catch (err: unknown) {
+          if (err instanceof AxiosError) {
+            toast.error("Erro ao registrar com Google: " + (err.response?.data?.message || err.message));
+            return;
+          }
+          toast.error("Erro ao registrar com Google: " + (err as Error).message);
+        }
   }
 
   return (
@@ -83,15 +122,16 @@ export const RegisterForm = () => {
             </p>
           )}
           <Input type="password" {...register('confirmPassword')} placeholder="Confirme a Senha" className="mb-4" />  
-          <Button type="submit" className="w-full bg-primary text-white py-2 px-4 rounded hover:bg-secondary transition-colors">
+          <Button disabled={isRegisteringForm} type="submit" className="w-full bg-primary text-white py-2 px-4 rounded hover:bg-secondary transition-colors">
             Criar Conta
           </Button>
 
           <Separator className="my-4" orientation="horizontal"/>
           <div className="flex justify-center">
             <GoogleLogin theme="filled_black" type="standard" shape="pill" text="continue_with" 
-              onSuccess={credentialResponse => {
+              onSuccess={async credentialResponse => {
                 console.log("logou com sucesso no google", credentialResponse);
+                await onGoogleRegister(credentialResponse.credential!);
               }}
               onError={() => {
                 console.log('Register Failed');

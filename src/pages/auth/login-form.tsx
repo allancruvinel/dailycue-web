@@ -8,7 +8,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from 'react-hook-form'
 import { useMutation} from 'react-query'
 import { z } from "zod"
-import { loginRequest } from "@/api/auth"
+import { loginGoogleRequest, loginRequest } from "@/api/auth"
+import { AxiosError } from "axios"
+import { toast } from 'sonner'
 
 export const LoginForm = () => {
 
@@ -37,18 +39,26 @@ export const LoginForm = () => {
     }
   );
 
-  const { mutateAsync: loginRequestfn } = useMutation({
-    mutationFn: loginRequest,
-    onError: (error: Error) => {
-      console.error('Erro ao fazer login:', error);
-      alert("Erro ao fazer login: " + error.name + " - " + error.message);
-    }
+  const { mutateAsync: loginRequestfn,isLoading: isLoggingIn } = useMutation({
+    mutationFn: loginRequest
+  });
+  const { mutateAsync: loginGoogleRequestfn } = useMutation({
+    mutationFn: loginGoogleRequest,
   });
 
   const onSubmit = async (data:LoginFormType) => {
-    const volta = await loginRequestfn({email: data.email, password: data.password});
-    alert("Formulário enviado com sucesso!");
-    console.log('volta',volta);
+    
+    try{
+      const volta = await loginRequestfn({email: data.email, password: data.password});
+      toast.success("Login realizado com sucesso!");
+      console.log('volta',volta);
+    } catch (err : unknown) {
+      if (err instanceof AxiosError) {
+        toast.error("Erro ao fazer login: " + (err.response?.data?.message || err.message));
+        return;
+      }
+      toast.error("Erro ao fazer login: " + (err as Error).message);
+    }
 
     
     //como seria caso não usasse o zodResolver
@@ -66,12 +76,26 @@ export const LoginForm = () => {
     //   return;
     // }
   }
+  const onGoogleLogin = async (token: string) => {
+    try {
+      const response = await loginGoogleRequestfn(token);
+      toast.success("Login com Google realizado com sucesso!");
+      console.log('Google login response', response);
+    } catch (err: unknown) {
+      if (err instanceof AxiosError) {
+        toast.error("Erro ao fazer login com Google: " + (err.response?.data?.message || err.message));
+        return;
+      }
+      toast.error("Erro ao fazer login com Google: " + (err as Error).message);
+    }
+  }
 
   return (
     <Card className="w-sm max-w-sm p-6">
       <CardHeader>
         <CardTitle className="text-secondary text-bold">Login</CardTitle>
-        <CardDescription className="text-primary">Não tem uma conta? <Link to="/register" className="text-indigo-400 underline">Registre-se</Link>.</CardDescription>
+        <CardDescription className="text-primary">Não tem uma conta? <Link to="/register" className="text-indigo-400 underline">Registre-se</Link><p><Link to="/forgot-password" className="text-indigo-400 underline">Esqueci a senha</Link></p>
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -87,7 +111,7 @@ export const LoginForm = () => {
             </p>
           )}
           <Input type="password" {...register("password")} placeholder="Senha" className="mb-4" />
-          <Button type="submit" className="w-full bg-primary text-white py-2 px-4 rounded hover:bg-secondary transition-colors">
+          <Button disabled={isLoggingIn} type="submit" className="w-full bg-primary text-white py-2 px-4 rounded hover:bg-secondary transition-colors">
             Entrar
           </Button>
 
@@ -96,6 +120,7 @@ export const LoginForm = () => {
             <GoogleLogin theme="filled_black" type="standard" shape="pill"
               onSuccess={credentialResponse => {
                 console.log("logou com sucesso no google", credentialResponse);
+                onGoogleLogin(credentialResponse.credential!);
               }}
               onError={() => {
                 console.log('Login Failed');
