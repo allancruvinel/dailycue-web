@@ -1,8 +1,8 @@
-import { ModeToggle } from './components/mode-toggle'
-import './index.css'
-import { ThemeProvider } from "@/components/theme-provider"
-import {RouterProvider} from 'react-router'
-import { routes } from './routes'
+import { ModeToggle } from "./components/mode-toggle";
+import "./index.css";
+import { ThemeProvider } from "@/components/theme-provider";
+import { RouterProvider } from "react-router";
+import { routes } from "./routes";
 function App() {
   return (
     <ThemeProvider>
@@ -14,6 +14,6 @@ function App() {
         <RouterProvider router={routes} />
       </div>
     </ThemeProvider>
-  )
+  );
 }
-export default App
+export default App;

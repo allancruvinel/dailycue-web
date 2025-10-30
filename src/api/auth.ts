@@ -1,4 +1,4 @@
-import {api} from '@/lib/axios';
+import { api } from "@/lib/axios";
 
 export interface LoginRequest {
   email: string;
@@ -12,22 +12,26 @@ export interface RegisterRequest {
   confirmPassword: string;
 }
 
-export const loginRequest = async ({email, password}: LoginRequest) => {
-  const response = await api.post('/login', { email, password });
+export const loginRequest = async ({ email, password }: LoginRequest) => {
+  const response = await api.post("/login", { email, password });
   return response.data;
 };
 
-export const registerRequest = async ({name, email, password}: RegisterRequest) => {
-  const response = await api.post('/register', { name,email, password });
+export const registerRequest = async ({
+  name,
+  email,
+  password,
+}: RegisterRequest) => {
+  const response = await api.post("/register", { name, email, password });
   return response.data;
 };
 
 export const loginGoogleRequest = async (token: string) => {
-  const response = await api.post('/google-login', { token: token });
+  const response = await api.post("/google-login", { token: token });
   return response.data;
-}
+};
 
 export const registerGoogleRequest = async (token: string) => {
-  const response = await api.post('/google-register', { token: token });
+  const response = await api.post("/google-register", { token: token });
   return response.data;
-}
+};
