@@ -9,7 +9,7 @@ export const NotFoundPage = () => {
         A página que você está procurando não existe.
       </p>
       <p>
-        <Link className="text-indigo-400 underline" to="/">
+        <Link className="text-indigo-400 underline" to="/dashboard">
           clique aqui
         </Link>{" "}
         para voltar à página inicial.

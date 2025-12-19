@@ -13,7 +13,11 @@ export interface RegisterRequest {
 }
 
 export const loginRequest = async ({ email, password }: LoginRequest) => {
-  const response = await api.post("/login", { email, password });
+  const response = await api.post(
+    "/login",
+    { email, password },
+    { withCredentials: true },
+  );
   return response.data;
 };
 
@@ -27,7 +31,11 @@ export const registerRequest = async ({
 };
 
 export const loginGoogleRequest = async (token: string) => {
-  const response = await api.post("/google-login", { token: token });
+  const response = await api.post(
+    "/google-login",
+    { token: token },
+    { withCredentials: true },
+  );
   return response.data;
 };
 

@@ -17,8 +17,11 @@ import { z } from "zod";
 import { loginGoogleRequest, loginRequest } from "@/api/auth";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
+import { useNavigate } from "react-router";
 
 export const LoginForm = () => {
+  const navigate = useNavigate();
+
   const loginForm = z.object({
     email: z.email("Email inválido"),
     password: z.string(),
@@ -59,6 +62,7 @@ export const LoginForm = () => {
       });
       toast.success("Login realizado com sucesso!");
       console.log("volta", volta);
+      navigate("/dashboard");
     } catch (err: unknown) {
       if (err instanceof AxiosError) {
         toast.error(
@@ -69,27 +73,13 @@ export const LoginForm = () => {
       }
       toast.error("Erro ao fazer login: " + (err as Error).message);
     }
-
-    //como seria caso não usasse o zodResolver
-    // const isValid = loginForm.safeParse(data);
-    // if (!isValid.success) {
-    //   isValid.error.issues.forEach((issue) => {
-    //     // seta erro manualmente
-    //     setError(issue.path[0] as keyof LoginFormType, {
-    //       type: "manual",
-    //       message: issue.message,
-    //     });
-    //   });
-    //   console.log('isValid.error.issues',isValid.error.issues);
-    //   console.log('errors',errors);
-    //   return;
-    // }
   };
   const onGoogleLogin = async (token: string) => {
     try {
       const response = await loginGoogleRequestfn(token);
       toast.success("Login com Google realizado com sucesso!");
       console.log("Google login response", response);
+      navigate("/dashboard");
     } catch (err: unknown) {
       if (err instanceof AxiosError) {
         toast.error(

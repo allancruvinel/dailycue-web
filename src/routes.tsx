@@ -5,6 +5,8 @@ import { ErrorPage } from "./pages/error";
 import { LoginForm } from "./pages/auth/login-form";
 import { RegisterForm } from "./pages/auth/register-form";
 import { NotFoundPage } from "./pages/not-found";
+import { AppLayout } from "./pages/_layouts/app";
+import { Dashboard } from "./pages/dashboard/dashboard";
 
 export const routes = createBrowserRouter([
   {
@@ -15,6 +17,15 @@ export const routes = createBrowserRouter([
       { path: "/", element: <Construction /> },
       { path: "/login", element: <LoginForm /> },
       { path: "/register", element: <RegisterForm /> },
+    ],
+  },
+  {
+    path: "/",
+    element: <AppLayout />,
+    errorElement: <ErrorPage />,
+    children: [
+      { path: "/", element: <Construction /> },
+      { path: "/dashboard", element: <Dashboard /> },
     ],
   },
   { path: "*", element: <NotFoundPage /> },
