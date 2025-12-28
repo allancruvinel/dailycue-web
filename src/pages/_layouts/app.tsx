@@ -1,3 +1,4 @@
+import { logoutRequest } from "@/api/auth";
 import {
   Sidebar,
   SidebarContent,
@@ -19,8 +20,10 @@ import {
   Inbox,
   Search,
   Settings,
+  LogOut,
 } from "lucide-react";
 import { useEffect } from "react";
+import { useMutation } from "react-query";
 import { Link, Outlet, useNavigate } from "react-router";
 
 // Menu items.
@@ -59,6 +62,13 @@ const items = [
 
 export const AppLayout = () => {
   const navigate = useNavigate();
+
+  const { mutateAsync: logout } = useMutation({
+    mutationFn: logoutRequest,
+    onSuccess: () => {
+      navigate("/login");
+    },
+  });
 
   useEffect(() => {
     const interceptorid = api.interceptors.response.use(
@@ -101,6 +111,17 @@ export const AppLayout = () => {
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
+                <SidebarMenuItem key={"logout"}>
+                  <SidebarMenuButton asChild>
+                    <div
+                      className="cursor-pointer"
+                      onClick={async () => logout()}
+                    >
+                      <LogOut />
+                      <span>Sair</span>
+                    </div>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>

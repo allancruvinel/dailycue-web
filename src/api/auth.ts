@@ -43,3 +43,8 @@ export const registerGoogleRequest = async (token: string) => {
   const response = await api.post("/google-register", { token: token });
   return response.data;
 };
+
+export const logoutRequest = async () => {
+  const response = await api.post("/logout", {}, { withCredentials: true });
+  return response.data;
+};
