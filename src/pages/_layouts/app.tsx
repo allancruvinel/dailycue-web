@@ -95,42 +95,45 @@ export const AppLayout = () => {
 
   return (
     <SidebarProvider>
-      <Sidebar>
-        <SidebarContent>
-          <SidebarGroup>
-            <SidebarGroupLabel>Daily Cue</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {items.map((item) => (
-                  <SidebarMenuItem key={item.title}>
+      <div className="flex h-screen w-full">
+        <Sidebar>
+          <SidebarContent>
+            <SidebarGroup>
+              <SidebarGroupLabel>Daily Cue</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {items.map((item) => (
+                    <SidebarMenuItem key={item.title}>
+                      <SidebarMenuButton asChild>
+                        <Link to={item.url}>
+                          <item.icon />
+                          <span>{item.title}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                  <SidebarMenuItem key={"logout"}>
                     <SidebarMenuButton asChild>
-                      <Link to={item.url}>
-                        <item.icon />
-                        <span>{item.title}</span>
-                      </Link>
+                      <div
+                        className="cursor-pointer"
+                        onClick={async () => logout()}
+                      >
+                        <LogOut />
+                        <span>Sair</span>
+                      </div>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
-                ))}
-                <SidebarMenuItem key={"logout"}>
-                  <SidebarMenuButton asChild>
-                    <div
-                      className="cursor-pointer"
-                      onClick={async () => logout()}
-                    >
-                      <LogOut />
-                      <span>Sair</span>
-                    </div>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        </SidebarContent>
-      </Sidebar>
-
-      <div>
-        <SidebarTrigger />
-        <Outlet />
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          </SidebarContent>
+        </Sidebar>
+        <div className="flex flex-1 flex-col overflow-hidden">
+          <SidebarTrigger />
+          <main className="flex-1 overflow-y-auto">
+            <Outlet />
+          </main>
+        </div>
       </div>
     </SidebarProvider>
   );

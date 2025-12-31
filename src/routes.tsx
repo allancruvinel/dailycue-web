@@ -7,6 +7,7 @@ import { RegisterForm } from "./pages/auth/register-form";
 import { NotFoundPage } from "./pages/not-found";
 import { AppLayout } from "./pages/_layouts/app";
 import { Dashboard } from "./pages/dashboard/dashboard";
+import { Chats } from "./pages/chats/chats";
 
 export const routes = createBrowserRouter([
   {
@@ -26,6 +27,7 @@ export const routes = createBrowserRouter([
     children: [
       { path: "/", element: <Construction /> },
       { path: "/dashboard", element: <Dashboard /> },
+      { path: "/chats", element: <Chats /> },
     ],
   },
   { path: "*", element: <NotFoundPage /> },
