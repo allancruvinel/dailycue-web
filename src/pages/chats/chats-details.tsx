@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 
-export const Chats = () => {
+export const ChatsDetails = () => {
   // const { data: userData } = useQuery({
   //   queryKey: ["me"],
   //   queryFn: meRequest,
@@ -27,11 +27,11 @@ export const Chats = () => {
   return (
     <div className="flex flex-col items-center justify-center w-full p-4">
       <div className="w-full flex flex-row items-center justify-between">
-        <h1 className="text-3xl m-4">Chats</h1>
+        <h1 className="text-3xl m-4">Atendimento TI</h1>
 
         <Dialog>
           <DialogTrigger asChild>
-            <Button className="bg-secondary">Novo Chat</Button>
+            <Button className="bg-secondary">Novo Cue</Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <form
