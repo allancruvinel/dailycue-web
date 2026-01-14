@@ -62,7 +62,7 @@ export const ChatsDetailsLayout = () => {
           </li>
         </ul>
       </nav>
-      <main className="flex-1 overflow-y-auto">
+      <main className="w-full">
         <Outlet />
       </main>
     </div>
