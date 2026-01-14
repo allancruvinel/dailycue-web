@@ -18,6 +18,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { Link } from "react-router";
 
 export const Chats = () => {
   // const { data: userData } = useQuery({
@@ -56,26 +57,28 @@ export const Chats = () => {
       <Input className="w-full mb-4" placeholder="Buscar chats..." />
       <div className="w-full flex flex-col items-center gap-0.5">
         {Array.from({ length: 60 }).map((_, index) => (
-          <Card
-            key={index}
-            className="w-full hover:cursor-pointer border-2 border-transparent hover:border-primary transition-shadow mb-4"
-          >
-            <CardHeader className="flex flex-row gap-6.5 items-center">
-              <img
-                className="w-12 h-12 bg-fixed rounded-full"
-                src="https://cdn-icons-png.flaticon.com/512/6541/6541074.png"
-                alt=""
-              />
-              <div>
-                <CardTitle className="text-primary text-bold text-2xl">
-                  Nome do chat
-                </CardTitle>
-                <CardDescription className="text-muted-foreground">
-                  Sobre o que é o chat
-                </CardDescription>
-              </div>
-            </CardHeader>
-          </Card>
+          <Link to={`/chats/${index}`} key={index} className="w-full">
+            <Card
+              key={index}
+              className="w-full hover:cursor-pointer border-2 border-transparent hover:border-primary transition-shadow mb-4"
+            >
+              <CardHeader className="flex flex-row gap-6.5 items-center">
+                <img
+                  className="w-12 h-12 bg-fixed rounded-full"
+                  src="https://cdn-icons-png.flaticon.com/512/6541/6541074.png"
+                  alt=""
+                />
+                <div>
+                  <CardTitle className="text-primary text-bold text-2xl">
+                    Nome do chat
+                  </CardTitle>
+                  <CardDescription className="text-muted-foreground">
+                    Sobre o que é o chat
+                  </CardDescription>
+                </div>
+              </CardHeader>
+            </Card>
+          </Link>
         ))}
       </div>
     </div>

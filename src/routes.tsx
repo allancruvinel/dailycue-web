@@ -12,7 +12,10 @@ import { Cues } from "./pages/cues/cues";
 import { Schedules } from "./pages/schedules/schedules";
 import { Configuracoes } from "./pages/configuracoes/configuracoes";
 import { Subscription } from "./pages/subscription/subscription";
-import { ChatsDetails } from "./pages/chats/chats-details";
+import { ChatsDetailsLayout } from "./pages/chats/chats-details-layout";
+import { ChatsCueSchedule } from "./pages/chats/chats-cue-schedule";
+import { ChatsCueRandom } from "./pages/chats/chats-cue-random";
+import { ChatsSettings } from "./pages/chats/chats-settings";
 
 export const routes = createBrowserRouter([
   {
@@ -33,7 +36,24 @@ export const routes = createBrowserRouter([
       { path: "/", element: <Construction /> },
       { path: "/dashboard", element: <Dashboard /> },
       { path: "/chats", element: <Chats /> },
-      { path: "/chats/:id", element: <ChatsDetails /> },
+      {
+        path: "/chats/:id",
+        element: <ChatsDetailsLayout />,
+        children: [
+          {
+            path: "/chats/:id/cueschedules",
+            element: <ChatsCueSchedule />,
+          },
+          {
+            path: "/chats/:id/cuerandom",
+            element: <ChatsCueRandom />,
+          },
+          {
+            path: "/chats/:id/settings",
+            element: <ChatsSettings />,
+          },
+        ],
+      },
       { path: "/cues", element: <Cues /> },
       { path: "/schedules", element: <Schedules /> },
       { path: "/settings", element: <Configuracoes /> },
