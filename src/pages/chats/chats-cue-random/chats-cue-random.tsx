@@ -1,5 +1,14 @@
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { cueRandomTipsColumns } from "./cue-columns";
 import { DataTable } from "./cue-data-table";
+import { Button } from "@/components/ui/button";
 
 export type CueRandomTips = {
   id: number;
@@ -38,6 +47,40 @@ export const ChatsCueRandom = () => {
     <div className="flex flex-col items-center justify-center w-full p-4">
       <div className="w-full flex flex-row items-center justify-between">
         <h1 className="text-3xl m-4">Chats Cue Random</h1>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8  p-2">
+              <span className="">2 cues selecionado(s)</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Opções</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              onClick={() => alert("Payment ID copied to clipboard")}
+            >
+              Ativar cues
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => alert("Payment ID copied to clipboard")}
+            >
+              Desativar cues
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              onClick={() => alert("Payment ID copied to clipboard")}
+            >
+              Copiar para...
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => alert("Payment ID copied to clipboard")}
+            >
+              Enviar para...
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>Excluir</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
       <div className="container mx-auto">
         <DataTable columns={cueRandomTipsColumns} data={data} />
