@@ -9,6 +9,7 @@ import {
 import { cueRandomTipsColumns } from "./cue-columns";
 import { DataTable } from "./cue-data-table";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 export type CueRandomTips = {
   id: number;
@@ -16,42 +17,33 @@ export type CueRandomTips = {
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
+  selected?: boolean;
 };
-
-const data: CueRandomTips[] = [
-  {
-    id: 1,
-    contentText: "Dica 1: Mantenha seu código limpo e organizado.",
-    isActive: true,
-    createdAt: "2024-01-01T12:00:00Z",
-    updatedAt: "2024-01-01T12:00:00Z",
-  },
-  {
-    id: 2,
-    contentText: "Dica 2: Comente seu código para melhor compreensão.",
-    isActive: true,
-    createdAt: "2024-01-02T12:00:00Z",
-    updatedAt: "2024-01-02T12:00:00Z",
-  },
-  {
-    id: 3,
-    contentText: "Dica 3: Utilize controle de versão para gerenciar mudanças.",
-    isActive: false,
-    createdAt: "2024-01-03T12:00:00Z",
-    updatedAt: "2024-01-03T12:00:00Z",
-  },
-];
+const data: CueRandomTips[] = Array.from({ length: 100 }, (_, i) => ({
+  id: i + 1,
+  contentText: `Dica ${i + 1}: Esta é uma dica de exemplo.`,
+  isActive: i % 2 === 0,
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
+  selected: false,
+}));
 
 export const ChatsCueRandom = () => {
+  const [rowIndexSelection, setRowIndexSelection] = useState({});
+  const lineSelected = data.filter((item) => item.selected).length;
   return (
     <div className="flex flex-col items-center justify-center w-full p-4">
       <div className="w-full flex flex-row items-center justify-between">
         <h1 className="text-3xl m-4">Chats Cue Random</h1>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8  p-2">
-              <span className="">2 cues selecionado(s)</span>
-            </Button>
+            {lineSelected > 0 && (
+              <Button variant="default" className="h-8  p-2">
+                <span>
+                  {lineSelected} cue{lineSelected > 1 && "s"} selecionado(s)
+                </span>
+              </Button>
+            )}
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Opções</DropdownMenuLabel>
@@ -83,7 +75,12 @@ export const ChatsCueRandom = () => {
         </DropdownMenu>
       </div>
       <div className="container mx-auto">
-        <DataTable columns={cueRandomTipsColumns} data={data} />
+        <DataTable
+          columns={cueRandomTipsColumns}
+          data={data}
+          rowSelection={rowIndexSelection}
+          onRowSelectionChange={setRowIndexSelection}
+        />
       </div>
     </div>
   );

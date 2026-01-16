@@ -17,15 +17,23 @@ import {
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  rowSelection?: Record<string, boolean>;
+  onRowSelectionChange?: (
+    updater: React.SetStateAction<Record<string, boolean>>,
+  ) => void;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  rowSelection,
+  onRowSelectionChange,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
     columns,
+    state: { rowSelection },
+    onRowSelectionChange,
     getCoreRowModel: getCoreRowModel(),
   });
 

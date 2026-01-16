@@ -11,14 +11,22 @@ export const cueRandomTipsColumns: ColumnDef<CueRandomTips>[] = [
           table.getIsAllPageRowsSelected() ||
           (table.getIsSomePageRowsSelected() && "indeterminate")
         }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        onCheckedChange={(value) => {
+          table.getRowModel().rows.forEach((r) => {
+            r.original.selected = !!value;
+          });
+          return table.toggleAllPageRowsSelected(!!value);
+        }}
         aria-label="Select all"
       />
     ),
     cell: ({ row }) => (
       <Checkbox
         checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        onCheckedChange={(value) => {
+          row.original.selected = !!value;
+          return row.toggleSelected(!!value);
+        }}
         aria-label="Select row"
       />
     ),
