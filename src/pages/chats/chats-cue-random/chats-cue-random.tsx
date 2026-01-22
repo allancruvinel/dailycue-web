@@ -10,6 +10,7 @@ import { cueRandomTipsColumns } from "./cue-columns";
 import { DataTable } from "./cue-data-table";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { CueColumnsFilters } from "./cue-columns-filters";
 
 export type CueRandomTips = {
   id: number;
@@ -34,7 +35,7 @@ export const ChatsCueRandom = () => {
   return (
     <div className="flex flex-col items-center justify-center w-full p-4">
       <div className="w-full flex flex-row items-center justify-between">
-        <h1 className="text-3xl m-4">Chats Cue Random</h1>
+        <CueColumnsFilters />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             {lineSelected > 0 && (
@@ -74,7 +75,7 @@ export const ChatsCueRandom = () => {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="container mx-auto">
+      <div className="container mx-auto mt-4">
         <DataTable
           columns={cueRandomTipsColumns}
           data={data}
