@@ -28,7 +28,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Field, FieldLabel } from "@/components/ui/field";
+import { Field } from "@/components/ui/field";
 
 export type CueRandomTips = {
   id: number;
@@ -63,6 +63,17 @@ export const ChatsCueRandom = () => {
   const handlePageSizeChange = (pageSize: number) => {
     setSearchParams((prev) => {
       prev.set("pageSize", pageSize.toString());
+      prev.set("page", "1");
+      return prev;
+    });
+  };
+
+  const handleFiltersChange = (status: string, content: string) => {
+    setSearchParams((prev) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+      content ? prev.set("content", content) : prev.delete("content");
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+      status ? prev.set("status", status) : prev.delete("status");
       return prev;
     });
   };
@@ -70,7 +81,7 @@ export const ChatsCueRandom = () => {
   return (
     <div className="flex flex-col items-center justify-center w-full p-4">
       <div className="w-full flex flex-row items-center justify-between">
-        <CueColumnsFilters />
+        <CueColumnsFilters handleFiltersChange={handleFiltersChange} />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             {lineSelected > 0 && (

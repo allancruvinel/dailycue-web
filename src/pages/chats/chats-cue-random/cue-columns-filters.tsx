@@ -10,12 +10,27 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Search } from "lucide-react";
+import { useState } from "react";
 
-export const CueColumnsFilters = () => {
+interface CueColumnsFiltersProps {
+  handleFiltersChange: (status: string, content: string) => void;
+}
+
+export const CueColumnsFilters = ({
+  handleFiltersChange,
+}: CueColumnsFiltersProps) => {
+  const [filterContent, setFilterContent] = useState("");
+  const [filterStatus, setFilterStatus] = useState("");
+
   return (
     <div className="flex gap-4 w-full">
-      <Input className="w-1/2" placeholder="filtrar por texto" />
-      <Select>
+      <Input
+        className="w-1/2"
+        placeholder="filtrar por texto"
+        value={filterContent}
+        onChange={(e) => setFilterContent(e.target.value)}
+      />
+      <Select onValueChange={(value) => setFilterStatus(value)}>
         <SelectTrigger className=" max-w-48">
           <SelectValue placeholder="Seleciona o status" />
         </SelectTrigger>
@@ -27,7 +42,10 @@ export const CueColumnsFilters = () => {
           </SelectGroup>
         </SelectContent>
       </Select>
-      <Button type="submit" variant="secondary">
+      <Button
+        variant="secondary"
+        onClick={() => handleFiltersChange?.(filterStatus, filterContent)}
+      >
         <Search className="mr-2 h-4 w-4" />
         Filtrar resultados
       </Button>
