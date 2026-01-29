@@ -7,28 +7,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cueRandomTipsColumns } from "./cue-columns";
-import { DataTable } from "./cue-data-table";
+import { DataTable } from "../../../components/data-table";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { CueColumnsFilters } from "./cue-columns-filters";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
 import { useSearchParams } from "react-router";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Field } from "@/components/ui/field";
+import { PaginationComponent } from "@/components/pagination";
 
 export type CueRandomTips = {
   id: number;
@@ -84,13 +68,15 @@ export const ChatsCueRandom = () => {
         <CueColumnsFilters handleFiltersChange={handleFiltersChange} />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            {lineSelected > 0 && (
-              <Button variant="default" className="h-8  p-2">
-                <span>
-                  {lineSelected} cue{lineSelected > 1 && "s"} selecionado(s)
-                </span>
-              </Button>
-            )}
+            <Button
+              disabled={lineSelected === 0}
+              variant="default"
+              className="h-8  p-2"
+            >
+              <span>
+                {lineSelected} cue{lineSelected > 1 && "s"} selecionado(s)
+              </span>
+            </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Opções</DropdownMenuLabel>
@@ -128,50 +114,15 @@ export const ChatsCueRandom = () => {
           rowSelection={rowIndexSelection}
           onRowSelectionChange={setRowIndexSelection}
         />
-        <Pagination className="mt-4">
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious onClick={() => handlePaginate(1 - 1)} />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink onClick={() => handlePaginate(1)}>
-                1
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink onClick={() => handlePaginate(2)} isActive>
-                2
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink onClick={() => handlePaginate(3)}>
-                3
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext onClick={() => handlePaginate(1 + 1)} />
-            </PaginationItem>
-          </PaginationContent>
-          <Field orientation="horizontal" className="w-fit">
-            <Select
-              defaultValue="25"
-              onValueChange={(e) => handlePageSizeChange(Number(e))}
-            >
-              <SelectTrigger className="w-20" id="select-rows-per-page">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent align="start">
-                <SelectGroup>
-                  <SelectItem value="10">10</SelectItem>
-                  <SelectItem value="25">25</SelectItem>
-                  <SelectItem value="50">50</SelectItem>
-                  <SelectItem value="100">100</SelectItem>
-                  <SelectItem value="400">400</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </Field>
-        </Pagination>
+        <PaginationComponent
+          className="mt-4"
+          currentPage={
+            searchParams.get("page") ? parseInt(searchParams.get("page")!) : 1
+          }
+          totalPages={10}
+          onPageChange={handlePaginate}
+          onPageSizeChange={handlePageSizeChange}
+        />
       </div>
     </div>
   );
