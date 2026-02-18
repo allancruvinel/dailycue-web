@@ -13,7 +13,7 @@ import { Schedules } from "./pages/schedules/schedules";
 import { Configuracoes } from "./pages/configuracoes/configuracoes";
 import { Subscription } from "./pages/subscription/subscription";
 import { ChatsDetailsLayout } from "./pages/chats/chats-details-layout";
-import { ChatsCueSchedule } from "./pages/chats/chats-cue-schedule";
+import { ChatsCueSchedule } from "./pages/chats/chats-cue-schedule/chats-cue-schedule";
 import { ChatsCueRandom } from "./pages/chats/chats-cue-random/chats-cue-random";
 import { ChatsSettings } from "./pages/chats/chats-settings";
 

@@ -6,7 +6,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { cueRandomTipsColumns } from "./cue-columns";
+import { CueScheduleTipsColumns } from "./cue-columns";
 import { DataTable } from "../../../components/data-table";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
@@ -14,24 +14,26 @@ import { CueColumnsFilters } from "./cue-columns-filters";
 import { useSearchParams } from "react-router";
 import { PaginationComponent } from "@/components/pagination";
 
-export type CueRandomTips = {
+export type CueScheduleTips = {
   id: number;
   contentText: string | null;
+  frequency: string | null;
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
   selected?: boolean;
 };
-const data: CueRandomTips[] = Array.from({ length: 10 }, (_, i) => ({
+const data: CueScheduleTips[] = Array.from({ length: 10 }, (_, i) => ({
   id: i + 1,
   contentText: `Dica ${i + 1}: Esta é uma dica de exemplo.`,
   isActive: i % 2 === 0,
+  frequency: i % 2 === 0 ? "15 em 15 min" : "domingos as 12h",
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
   selected: false,
 }));
 
-export const ChatsCueRandom = () => {
+export const ChatsCueSchedule = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [rowIndexSelection, setRowIndexSelection] = useState({});
@@ -109,7 +111,7 @@ export const ChatsCueRandom = () => {
       </div>
       <div className="w-full mx-auto mt-4">
         <DataTable
-          columns={cueRandomTipsColumns}
+          columns={CueScheduleTipsColumns}
           data={data}
           rowSelection={rowIndexSelection}
           onRowSelectionChange={setRowIndexSelection}
