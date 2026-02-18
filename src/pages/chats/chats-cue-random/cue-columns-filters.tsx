@@ -30,7 +30,10 @@ export const CueColumnsFilters = ({
         value={filterContent}
         onChange={(e) => setFilterContent(e.target.value)}
       />
-      <Select onValueChange={(value) => setFilterStatus(value)}>
+      <Select
+        value={filterStatus}
+        onValueChange={(value) => setFilterStatus(value)}
+      >
         <SelectTrigger className=" max-w-48">
           <SelectValue placeholder="Seleciona o status" />
         </SelectTrigger>
@@ -48,6 +51,16 @@ export const CueColumnsFilters = ({
       >
         <Search className="mr-2 h-4 w-4" />
         Filtrar resultados
+      </Button>
+      <Button
+        variant="outline"
+        onClick={() => {
+          setFilterContent("");
+          setFilterStatus("");
+          handleFiltersChange?.("", "");
+        }}
+      >
+        Limpar filtros
       </Button>
     </div>
   );
