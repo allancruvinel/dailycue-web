@@ -2,7 +2,9 @@
 // import { useQuery } from "react-query";
 
 import { NavLink } from "@/components/nav-link";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -13,6 +15,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { X } from "lucide-react";
+import { useState } from "react";
 import { Outlet } from "react-router";
 
 export const ChatsDetailsLayout = () => {
@@ -20,34 +25,97 @@ export const ChatsDetailsLayout = () => {
   //   queryKey: ["me"],
   //   queryFn: meRequest,
   // });
+
+  const [newRandomCues, setNewRandomCues] = useState<string[]>([]);
+  const [inputRandomCuesText, setInputRandomCuesText] = useState("");
+
+  const handleAddRandomCues = (cuesText: string) => {
+    setInputRandomCuesText(cuesText);
+    if (!cuesText.includes("\n")) return;
+
+    const cues = cuesText
+      .split(/\r?\n/)
+      .map((cue) => cue.trim())
+      .filter(Boolean);
+    setNewRandomCues((prev) => [...prev, ...cues]);
+    setInputRandomCuesText("");
+  };
+
   return (
     <div className="flex flex-col items-center justify-center w-full p-4">
       <div className="w-full flex flex-row items-center justify-between">
         <h1 className="text-3xl m-4">Atendimento TI</h1>
 
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button className="bg-secondary">Novo Cue</Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
-            <form
-              className="flex flex-col gap-1.5"
-              onSubmit={() => alert("submetido")}
-            >
-              <DialogHeader>
-                <DialogTitle>Novo Cue</DialogTitle>
-                <DialogDescription>
-                  Crie um novo cue para interagir com seus contatos.
-                </DialogDescription>
-              </DialogHeader>
-              <Input placeholder="Nome do cue"></Input>
-              <Input placeholder="Descrição do cue"></Input>
-              <DialogFooter>
-                <Button type="reset">Salvar</Button>
-              </DialogFooter>
-            </form>
-          </DialogContent>
-        </Dialog>
+        <div className="flex gap-1.5">
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button className="bg-secondary">+ Cue Programado</Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <form
+                className="flex flex-col gap-1.5"
+                onSubmit={(e) => e.preventDefault()}
+              >
+                <DialogHeader>
+                  <DialogTitle>Novo Cue</DialogTitle>
+                  <DialogDescription>
+                    Crie um novo cue para interagir com seus contatos.
+                  </DialogDescription>
+                </DialogHeader>
+                <Input placeholder="Nome do cue"></Input>
+                <Input placeholder="Descrição do cue"></Input>
+                <DialogFooter>
+                  <Button type="submit">Salvar</Button>
+                </DialogFooter>
+              </form>
+            </DialogContent>
+          </Dialog>
+
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button className="bg-secondary">+ Cue Aleatório</Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <form
+                className="flex flex-col gap-1.5"
+                onSubmit={(e) => e.preventDefault()}
+              >
+                <DialogHeader>
+                  <DialogTitle>Novo Cue</DialogTitle>
+                  <DialogDescription>
+                    Crie um novo cue para interagir com seus contatos.
+                  </DialogDescription>
+                </DialogHeader>
+                <Card className="bg-transparent border-dashed border-2 border-secondary w-full flex flex-col gap-2 p-4 overflow-auto h-40">
+                  {newRandomCues.map((cue, index) => (
+                    <Badge key={index}>
+                      {cue}
+                      <Button
+                        className="w-0 h-0"
+                        onClick={() => {
+                          setNewRandomCues((prev) =>
+                            prev.filter((_, i) => i !== index),
+                          );
+                        }}
+                      >
+                        <X className="ml-2 cursor-pointer" />
+                      </Button>
+                    </Badge>
+                  ))}
+                </Card>
+                <Textarea
+                  value={inputRandomCuesText}
+                  onChange={(e) => handleAddRandomCues(e.target.value)}
+                  className="min-h-24"
+                  placeholder="insira as frases aleatórias separadas por ; (ponto e vírgula)"
+                ></Textarea>
+                <DialogFooter>
+                  <Button type="submit">Salvar</Button>
+                </DialogFooter>
+              </form>
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
       <nav className="w-full">
         <ul className="flex space-x-4 border-b pb-2 mb-4">
