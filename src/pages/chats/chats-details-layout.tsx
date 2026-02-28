@@ -5,6 +5,7 @@ import { NavLink } from "@/components/nav-link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogContent,
@@ -33,6 +34,15 @@ export const ChatsDetailsLayout = () => {
   const [inputRandomCuesText, setInputRandomCuesText] = useState("");
 
   const [inputScheduleCueText, setInputScheduleCueText] = useState("");
+
+  type ScheduleType =
+    | "single-send"
+    | "daily-send"
+    | "weekly-send"
+    | "monthly-send"
+    | "custom-send";
+
+  const [scheduleType, setScheduleType] = useState<ScheduleType>("single-send");
 
   const handleAddRandomCues = (cuesText: string) => {
     setInputRandomCuesText(cuesText);
@@ -74,7 +84,13 @@ export const ChatsDetailsLayout = () => {
                   placeholder="insira a frase do cue programado aqui"
                 ></Textarea>
                 <Separator className="my-4" />
-                <RadioGroup defaultValue="single-send" className="w-fit">
+                <RadioGroup
+                  defaultValue="single-send"
+                  onValueChange={(value) =>
+                    setScheduleType(value as ScheduleType)
+                  }
+                  className="w-fit"
+                >
                   <div className="flex items-center gap-3">
                     <RadioGroupItem value="single-send" id="r1" />
                     <Label htmlFor="r1">Enviar uma única vez</Label>
@@ -97,16 +113,91 @@ export const ChatsDetailsLayout = () => {
                   </div>
                 </RadioGroup>
                 <Separator className="my-4" />
+                {scheduleType === "single-send" && (
+                  <>
+                    <Label htmlFor="">
+                      Escolha a data e hora para o envio único do cue programado
+                    </Label>
 
-                <Label htmlFor="schedule">
-                  Escolha a data e hora para o envio do cue programado
-                </Label>
+                    <Input
+                      id="schedule"
+                      type="datetime-local"
+                      className="w-full"
+                    />
+                  </>
+                )}
+                {scheduleType === "daily-send" && (
+                  <>
+                    <Label htmlFor="">
+                      Escolha a hora para o envio diário do cue programado
+                    </Label>
 
-                <Input id="schedule" type="datetime-local" className="w-full" />
+                    <Input id="schedule" type="time" className="w-full" />
+                  </>
+                )}
+                {scheduleType === "weekly-send" && (
+                  <>
+                    <Label htmlFor="">
+                      Escolha os dias da semana e horario para o envio semanal
+                      do cue programado
+                    </Label>
+                    <Separator className="my-4" />
+                    <Label htmlFor="">todas as:</Label>
+                    <div className="flex gap-3">
+                      <Checkbox id="monday" value="monday" />
+                      <Label htmlFor="monday">Segunda-feira</Label>
+                    </div>
+                    <div className="flex gap-3">
+                      <Checkbox id="tuesday" value="tuesday" />
+                      <Label htmlFor="tuesday">Terça-feira</Label>
+                    </div>
+                    <div className="flex gap-3">
+                      <Checkbox id="wednesday" value="wednesday" />
+                      <Label htmlFor="wednesday">Quarta-feira</Label>
+                    </div>
+                    <div className="flex gap-3">
+                      <Checkbox id="thursday" value="thursday" />
+                      <Label htmlFor="thursday">Quinta-feira</Label>
+                    </div>
+                    <div className="flex gap-3">
+                      <Checkbox id="friday" value="friday" />
+                      <Label htmlFor="friday">Sexta-feira</Label>
+                    </div>
+                    <div className="flex gap-3">
+                      <Checkbox id="saturday" value="saturday" />
+                      <Label htmlFor="saturday">Sábado</Label>
+                    </div>
+                    <div className="flex gap-3">
+                      <Checkbox id="sunday" value="sunday" />
+                      <Label htmlFor="sunday">Domingo</Label>
+                    </div>
+                    <Separator className="my-4" />
+                    <Label htmlFor="schedule">ás</Label>
+                    <Input id="schedule" type="time" className="w-full" />
+                  </>
+                )}
+                {scheduleType === "monthly-send" && (
+                  <h1 className="text-sm italic mb-2">
+                    O cue será enviado no mesmo dia de cada mês. Configure a
+                    data e hora do primeiro envio após salvar o cue.
+                  </h1>
+                )}
+                {scheduleType === "custom-send" && (
+                  <h1 className="text-sm italic mb-2">
+                    Opção personalizada selecionada. Configure os detalhes do
+                    agendamento após salvar o cue.
+                  </h1>
+                )}
+
                 <Separator className="my-4" />
 
                 <DialogFooter>
-                  <Button type="submit">Salvar</Button>
+                  <Button
+                    onClick={() => console.log(scheduleType)}
+                    type="submit"
+                  >
+                    Salvar
+                  </Button>
                 </DialogFooter>
               </form>
             </DialogContent>
