@@ -104,11 +104,11 @@ export const ChatsDetailsLayout = () => {
                     <Label htmlFor="r3">Repetir semanalmente</Label>
                   </div>
                   <div className="flex items-center gap-3">
-                    <RadioGroupItem value="monthly-send" id="r4" />
+                    <RadioGroupItem disabled value="monthly-send" id="r4" />
                     <Label htmlFor="r4">Repetir mensalmente</Label>
                   </div>
                   <div className="flex items-center gap-3">
-                    <RadioGroupItem value="custom-send" id="r5" />
+                    <RadioGroupItem disabled value="custom-send" id="r5" />
                     <Label htmlFor="r5">Personalizado</Label>
                   </div>
                 </RadioGroup>
