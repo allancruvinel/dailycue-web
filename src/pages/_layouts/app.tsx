@@ -1,4 +1,5 @@
 import { logoutRequest } from "@/api/auth";
+import { Label } from "@/components/ui/label";
 import {
   Sidebar,
   SidebarContent,
@@ -13,15 +14,7 @@ import {
 } from "@/components/ui/sidebar";
 import { api } from "@/lib/axios";
 import { isAxiosError } from "axios";
-import {
-  Binoculars,
-  Calendar,
-  Home,
-  Inbox,
-  Search,
-  Settings,
-  LogOut,
-} from "lucide-react";
+import { Calendar, Home, Inbox, Receipt, Settings, LogOut } from "lucide-react";
 import { useEffect } from "react";
 import { useMutation } from "react-query";
 import { Link, Outlet, useNavigate } from "react-router";
@@ -39,14 +32,9 @@ const items = [
     icon: Inbox,
   },
   {
-    title: "Cues",
-    url: "/cues",
-    icon: Calendar,
-  },
-  {
-    title: "Schedules",
+    title: "Cronograma de envios",
     url: "/schedules",
-    icon: Search,
+    icon: Calendar,
   },
   {
     title: "Configurações",
@@ -56,7 +44,7 @@ const items = [
   {
     title: "Assinatura",
     url: "/subscription",
-    icon: Binoculars,
+    icon: Receipt,
   },
 ];
 
@@ -107,7 +95,7 @@ export const AppLayout = () => {
                       <SidebarMenuButton asChild>
                         <Link to={item.url}>
                           <item.icon />
-                          <span>{item.title}</span>
+                          <Label className="cursor-pointer">{item.title}</Label>
                         </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
