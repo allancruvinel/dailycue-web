@@ -87,26 +87,8 @@ export const Schedules = () => {
             <DropdownMenuItem
               onClick={() => alert("Payment ID copied to clipboard")}
             >
-              Ativar cues
+              Remover do cronograma de envios
             </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => alert("Payment ID copied to clipboard")}
-            >
-              Desativar cues
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onClick={() => alert("Payment ID copied to clipboard")}
-            >
-              Copiar para...
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => alert("Payment ID copied to clipboard")}
-            >
-              Enviar para...
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Excluir</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
