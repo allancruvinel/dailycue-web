@@ -54,12 +54,18 @@ export const Schedules = () => {
     });
   };
 
-  const handleFiltersChange = (status: string, content: string) => {
+  const handleFiltersChange = (
+    status: string,
+    content: string,
+    chat: string,
+  ) => {
     setSearchParams((prev) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       content ? prev.set("content", content) : prev.delete("content");
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       status ? prev.set("status", status) : prev.delete("status");
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+      chat ? prev.set("chat", chat) : prev.delete("chat");
       return prev;
     });
   };

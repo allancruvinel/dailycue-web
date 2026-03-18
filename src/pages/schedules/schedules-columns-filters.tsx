@@ -13,22 +13,29 @@ import { Search } from "lucide-react";
 import { useState } from "react";
 
 interface ScheduleColumnsFiltersProps {
-  handleFiltersChange: (status: string, content: string) => void;
+  handleFiltersChange: (status: string, content: string, chat: string) => void;
 }
 
 export const ScheduleColumnsFilters = ({
   handleFiltersChange,
 }: ScheduleColumnsFiltersProps) => {
   const [filterContent, setFilterContent] = useState("");
+  const [filterChat, setFilterChat] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
 
   return (
     <div className="flex gap-4 w-full">
       <Input
-        className="w-1/2"
+        className="w-1/4"
         placeholder="filtrar por texto"
         value={filterContent}
         onChange={(e) => setFilterContent(e.target.value)}
+      />
+      <Input
+        className="w-1/4"
+        placeholder="filtrar por chat"
+        value={filterChat}
+        onChange={(e) => setFilterChat(e.target.value)}
       />
       <Select
         value={filterStatus}
@@ -48,7 +55,9 @@ export const ScheduleColumnsFilters = ({
       </Select>
       <Button
         variant="secondary"
-        onClick={() => handleFiltersChange?.(filterStatus, filterContent)}
+        onClick={() =>
+          handleFiltersChange?.(filterStatus, filterContent, filterChat)
+        }
       >
         <Search className="mr-2 h-4 w-4" />
         Filtrar resultados
@@ -58,7 +67,8 @@ export const ScheduleColumnsFilters = ({
         onClick={() => {
           setFilterContent("");
           setFilterStatus("");
-          handleFiltersChange?.("", "");
+          setFilterChat("");
+          handleFiltersChange?.("", "", "");
         }}
       >
         Limpar filtros
