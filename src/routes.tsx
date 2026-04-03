@@ -15,6 +15,7 @@ import { ChatsDetailsLayout } from "./pages/chats/chats-details-layout";
 import { ChatsCueSchedule } from "./pages/chats/chats-cue-schedule/chats-cue-schedule";
 import { ChatsCueRandom } from "./pages/chats/chats-cue-random/chats-cue-random";
 import { ChatsCueSettings } from "./pages/chats/chats-cue-settings/chats-cue-settings";
+import { ForgotPasswordForm } from "./pages/auth/forgot-password";
 
 export const routes = createBrowserRouter([
   {
@@ -25,6 +26,7 @@ export const routes = createBrowserRouter([
       { path: "/", element: <Construction /> },
       { path: "/login", element: <LoginForm /> },
       { path: "/register", element: <RegisterForm /> },
+      { path: "/forgot-password", element: <ForgotPasswordForm /> },
     ],
   },
   {
