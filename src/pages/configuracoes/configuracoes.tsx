@@ -57,7 +57,19 @@ export const Configuracoes = () => (
           <Input
             id="password"
             type="password"
-            defaultValue={"aaaaaaaaaaaaaaaaa"}
+            placeholder="Senha atual"
+            className="w-full"
+          />
+          <Input
+            id="password"
+            type="password"
+            placeholder="Nova senha"
+            className="w-full"
+          />
+          <Input
+            id="password"
+            type="password"
+            placeholder="Repetir nova senha"
             className="w-full"
           />
           <Button className="self-end bg-secondary">Resetar Senha</Button>
