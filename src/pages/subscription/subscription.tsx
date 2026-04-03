@@ -6,7 +6,7 @@ export const Subscription = () => (
     <Separator className="w-full my-4" />
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl w-full">
       {/* FREE */}
-      <div className="border rounded-xl p-6 bg-zinc-900">
+      <div className="border rounded-xl p-6 dark:bg-zinc-900">
         <h2 className="text-xl font-semibold mb-2">Free</h2>
         <p className="text-3xl font-bold mb-4">
           R$0<span className="text-sm">/mês</span>
@@ -24,7 +24,7 @@ export const Subscription = () => (
       </div>
 
       {/* PRO */}
-      <div className="border rounded-xl p-6 bg-zinc-900 border-blue-500">
+      <div className="border rounded-xl p-6 dark:bg-zinc-900 border-blue-500">
         <h2 className="text-xl font-semibold mb-2 flex items-center gap-2">
           Pro <span className="text-yellow-400">★</span>
         </h2>
@@ -39,7 +39,7 @@ export const Subscription = () => (
           <li>✔ Prioridade</li>
         </ul>
 
-        <button className="w-full bg-blue-600 hover:bg-blue-700 py-2 rounded-md">
+        <button className="w-full dark:bg-blue-600 hover:dark:bg-blue-700 text-white bg-secondary py-2 rounded-md">
           Assinar agora
         </button>
 
