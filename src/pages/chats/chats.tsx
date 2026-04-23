@@ -1,6 +1,7 @@
 // import { meRequest } from "@/api/me";
 // import { useQuery } from "react-query";
 
+import { createChatRequest } from "@/api/chat";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -18,13 +19,40 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { useMutation } from "react-query";
 import { Link } from "react-router";
+import { z } from "zod";
+import { toast } from "sonner";
 
 export const Chats = () => {
-  // const { data: userData } = useQuery({
-  //   queryKey: ["me"],
-  //   queryFn: meRequest,
-  // });
+  const { mutateAsync: createChatFn, isLoading: isCreatingChat } = useMutation({
+    mutationFn: createChatRequest,
+    onSuccess: () => {
+      toast.success("Chat criado com sucesso!");
+    },
+  });
+
+  const createChatForm = z.object({
+    name: z.string().min(1, "O nome do chat é obrigatório"),
+    description: z.string().optional(),
+  });
+
+  type CreateChatFormType = z.infer<typeof createChatForm>;
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<CreateChatFormType>({
+    resolver: zodResolver(createChatForm),
+    defaultValues: {
+      name: "",
+      description: "",
+    },
+  });
+
   return (
     <div className="flex flex-col items-center justify-center w-full p-4">
       <div className="w-full flex flex-row items-center justify-between">
@@ -37,7 +65,9 @@ export const Chats = () => {
           <DialogContent className="sm:max-w-[425px]">
             <form
               className="flex flex-col gap-1.5"
-              onSubmit={() => alert("submetido")}
+              onSubmit={handleSubmit((data) => {
+                createChatFn(data);
+              })}
             >
               <DialogHeader>
                 <DialogTitle>Novo Chat</DialogTitle>
@@ -45,10 +75,23 @@ export const Chats = () => {
                   Crie um novo chat para interagir com seus contatos.
                 </DialogDescription>
               </DialogHeader>
-              <Input placeholder="Nome do chat"></Input>
-              <Input placeholder="Descrição do chat"></Input>
+              {errors.name && (
+                <p className="text-red-500 text-sm">{errors.name.message}</p>
+              )}
+              {errors.description && (
+                <p className="text-red-500 text-sm">
+                  {errors.description.message}
+                </p>
+              )}
+              <Input placeholder="Nome do chat" {...register("name")} />
+              <Input
+                placeholder="Descrição do chat"
+                {...register("description")}
+              />
               <DialogFooter>
-                <Button type="reset">Salvar</Button>
+                <Button type="submit" disabled={isCreatingChat}>
+                  Salvar
+                </Button>
               </DialogFooter>
             </form>
           </DialogContent>
