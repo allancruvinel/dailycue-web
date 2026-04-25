@@ -1,7 +1,7 @@
 // import { meRequest } from "@/api/me";
 // import { useQuery } from "react-query";
 
-import { createChatRequest } from "@/api/chat";
+import { createChatRequest, getChatListRequest } from "@/api/chat";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -21,17 +21,37 @@ import {
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useMutation } from "react-query";
-import { Link } from "react-router";
+import { useMutation, useQuery } from "react-query";
+import { Link, useSearchParams } from "react-router";
 import { z } from "zod";
 import { toast } from "sonner";
+import { ChatFilters } from "./chat-filters";
 
 export const Chats = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const chatName = searchParams.get("chatName");
+
+  const handleFiltersChange = (chatName: string) => {
+    setSearchParams((prev) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+      chatName ? prev.set("chatName", chatName) : prev.delete("chatName");
+      return prev;
+    });
+  };
+
   const { mutateAsync: createChatFn, isLoading: isCreatingChat } = useMutation({
     mutationFn: createChatRequest,
     onSuccess: () => {
       toast.success("Chat criado com sucesso!");
     },
+  });
+
+  const { data: chatList } = useQuery({
+    queryKey: ["chatList", chatName],
+    queryFn: () =>
+      getChatListRequest({
+        chatName: searchParams.get("chatName") || undefined,
+      }),
   });
 
   const createChatForm = z.object({
@@ -97,12 +117,15 @@ export const Chats = () => {
           </DialogContent>
         </Dialog>
       </div>
-      <Input className="w-full mb-4" placeholder="Buscar chats..." />
+      <ChatFilters
+        handleFiltersChange={handleFiltersChange}
+        className="pb-3.5"
+      />
       <div className="w-full flex flex-col items-center gap-0.5">
-        {Array.from({ length: 60 }).map((_, index) => (
-          <Link to={`/chats/${index}`} key={index} className="w-full">
+        {chatList?.map((chat) => (
+          <Link to={`/chats/${chat.id}`} key={chat.id} className="w-full">
             <Card
-              key={index}
+              key={chat.id}
               className="w-full hover:cursor-pointer border-2 border-transparent hover:border-primary transition-shadow mb-4"
             >
               <CardHeader className="flex flex-row gap-6.5 items-center">
@@ -113,10 +136,10 @@ export const Chats = () => {
                 />
                 <div>
                   <CardTitle className="text-primary text-bold text-2xl">
-                    Nome do chat
+                    {chat.name}
                   </CardTitle>
                   <CardDescription className="text-muted-foreground">
-                    Sobre o que é o chat
+                    {chat.description}
                   </CardDescription>
                 </div>
               </CardHeader>
