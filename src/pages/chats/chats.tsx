@@ -26,6 +26,7 @@ import { Link, useSearchParams } from "react-router";
 import { z } from "zod";
 import { toast } from "sonner";
 import { ChatFilters } from "./chat-filters";
+import { LucideMessagesSquare } from "lucide-react";
 
 export const Chats = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -129,11 +130,7 @@ export const Chats = () => {
               className="w-full hover:cursor-pointer border-2 border-transparent hover:border-primary transition-shadow mb-4"
             >
               <CardHeader className="flex flex-row gap-6.5 items-center">
-                <img
-                  className="w-12 h-12 bg-fixed rounded-full"
-                  src="https://cdn-icons-png.flaticon.com/512/6541/6541074.png"
-                  alt=""
-                />
+                <LucideMessagesSquare size={30.5} />
                 <div>
                   <CardTitle className="text-primary text-bold text-2xl">
                     {chat.name}

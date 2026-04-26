@@ -16,15 +16,6 @@ import { Textarea } from "@/components/ui/textarea";
 export const ChatsCueSettings = () => {
   return (
     <div className="flex flex-col items-start justify-center w-200 p-4">
-      <div className="flex items-center gap-3 mb-4">
-        <img
-          className="w-12 h-12 bg-fixed rounded-l-2xl"
-          src="https://cdn-icons-png.flaticon.com/512/6541/6541074.png"
-          alt="Ícone de configurações de cues"
-          id="selecaoIcone"
-        />
-        <Label htmlFor="selecaoIcone">selecionar icone</Label>
-      </div>
       <form
         className="flex flex-col gap-4 w-full"
         onSubmit={() => alert("Configurações salvas!")}
