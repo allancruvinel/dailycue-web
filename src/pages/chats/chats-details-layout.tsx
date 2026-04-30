@@ -23,6 +23,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { X } from "lucide-react";
 import { useState } from "react";
 import { Outlet } from "react-router";
+import { Cron } from "react-js-cron";
+import { BRAZILIAN_VARIANT_LOCALE } from "@/lib/constants";
 
 export const ChatsDetailsLayout = () => {
   // const { data: userData } = useQuery({
@@ -55,6 +57,8 @@ export const ChatsDetailsLayout = () => {
     setNewRandomCues((prev) => [...prev, ...cues]);
     setInputRandomCuesText("");
   };
+
+  const [cronValue, setCronValue] = useState("* * * * *");
 
   return (
     <div className="flex flex-col items-center justify-center w-full p-4">
@@ -131,7 +135,12 @@ export const ChatsDetailsLayout = () => {
                     <Label htmlFor="">
                       Escolha a hora para o envio diário do cue programado
                     </Label>
-
+                    <Cron
+                      setValue={setCronValue}
+                      value={cronValue}
+                      className="w-full"
+                      locale={BRAZILIAN_VARIANT_LOCALE}
+                    />
                     <Input id="schedule" type="time" className="w-full" />
                   </>
                 )}
